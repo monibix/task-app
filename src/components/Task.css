@@ -1,0 +1,13 @@
+.task {
+    display: flex;
+    justify-content: space-around;
+}
+
+.uncompleted {
+    color: red;
+}
+
+.completed {
+    color: green;
+    text-decoration: line-through;
+}
