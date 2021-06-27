@@ -1,6 +1,10 @@
+.title {
+    margin-top: 30px;
+}
+
 .task {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .uncompleted {
