@@ -19,24 +19,25 @@ function Task() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const task = {id: ++id, ...form}
-        setTaskList(taskList.concat(task))
+        let updatedTaskList = taskList.concat(task)
+        setTaskList(updatedTaskList)
         setForm(initialFormState)
-        const strgyTask = JSON.stringify(taskList)
-        localStorage.setItem("task", strgyTask)
+        localStorage.setItem("task", JSON.stringify(updatedTaskList))
     }
 
-    const handleDelete = index => {
+    const handleDelete = id => {
         localStorage.removeItem("task")
-        const taskListCopy = [...taskList]
-        const taskIndex = taskListCopy.findIndex(item=> item === index)
-        taskListCopy.splice(taskIndex, 1)
-        setTaskList(taskListCopy)
+        let removedTaskList = [...taskList.filter(item => item.id !== id)]
+        setTaskList(removedTaskList)
+        localStorage.setItem("task", JSON.stringify(removedTaskList))
     }
 
     function toggleActive(index) {
         let taskListCopy = [...taskList]
         taskListCopy[index].toggled ? (taskListCopy[index].toggled = false) : (taskListCopy[index].toggled = true)
         setTaskList(taskListCopy)
+        localStorage.setItem("task", JSON.stringify(taskListCopy))
+
     }
 
     function toggleActiveStyles(index) {
@@ -56,24 +57,23 @@ function Task() {
         }
         return counter
     }
-
+    console.log("tasklist", taskList)
+    console.log("tasklist", taskList.length)
     return(
         <div>
             <h1>Task App</h1>
             <p>You have {counter()} uncompleted and {taskList.length} total tasks</p>
             <div>
                 {
-                taskList.map((task, index) => {
-                    return <div key={index} className={toggleActiveStyles(index)}>
+                    taskList.map((task, index)=>{
+                        return <div key={index} className={toggleActiveStyles(index)}> 
+                            <p>{task.title}</p>
                             <div>
-                                <p>{task.title}</p>
+                                <button onClick={()=> toggleActive(index)}>Done</button>
+                                <button onClick={()=>handleDelete(task.id)}>Delete Task</button>
                             </div>
-                            <div>
-                                <button onClick={()=>toggleActive(index)}>Done</button>
-                                <button onClick={()=>handleDelete(index)}    >Delete Task</button>
-                            </div>
-                    </div>
-                })
+                        </div>
+                    })
                 }
             </div>
 
