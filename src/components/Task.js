@@ -16,6 +16,7 @@ function Task() {
     const [form, setForm] = React.useState(initialFormState)
 
     const handleChange = (event) => {
+        console.log("change", event.target.value)
         const {name, value} = event.target;
         setForm({...form, [name]:value })
     }
@@ -84,17 +85,15 @@ function Task() {
             <div>
                 <Paper>
                 <form onSubmit={handleSubmit}>
-                <TextField>
-                    <input 
-                        type="text"
-                        name="title" 
-                        value={form.title} 
-                        onChange={handleChange} 
-                        minLength="1" 
-                        required 
-                    />
-                </TextField>
-                    <Button variant="contained" color="primary">Add Task</Button>
+                <TextField   
+                    type="text"
+                    name="title" 
+                    value={form.title} 
+                    onChange={handleChange} 
+                    minLength="1" 
+                    required 
+                />
+                    <Button variant="contained" color="primary" onClick={handleSubmit}>Add Task</Button>
                 </form>
                 </Paper>
             </div>
